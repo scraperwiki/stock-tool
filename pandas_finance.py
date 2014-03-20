@@ -10,7 +10,7 @@ def get_stock(stock, start, end, service):
     """
     Return data frame of finance data for stock.
 
-    Takes start and end datetimes.
+    Takes start and end datetimes, and service name of 'google' or 'yahoo'.
     """
     return web.DataReader(stock, service, start, end)
 
