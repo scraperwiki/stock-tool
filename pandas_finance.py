@@ -9,7 +9,7 @@ def get_stock(stock, start, end):
     """
     Return data frame of Yahoo Finance data for stock.
 
-    Takes start and end datetimes.
+    Takes stock name and start and end dates as datetimes.
     """
     return web.DataReader(stock, 'yahoo', start, end)
 
