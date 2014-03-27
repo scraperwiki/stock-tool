@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import datetime
 import sqlite3
+
 import pandas.io.data as web
 import pandas.io.sql as sql
 
@@ -13,6 +14,7 @@ def get_stock(stock, start, end):
     """
     return web.DataReader(stock, 'yahoo', start, end)
 
+
 def scrape_stock(stock, start, end):
     sqlite_db.execute("drop table if exists {};".format(stock))
     frame = (get_stock(stock, start, end))
@@ -22,6 +24,7 @@ def scrape_stock(stock, start, end):
     frame[['Date']] = frame[['Date']].applymap(lambda x: x.isoformat())
     sql.write_frame(frame, stock, sqlite_db)
 
+
 def main():
     global sqlite_db
     sqlite_db = sqlite3.connect("scraperwiki.sqlite")
@@ -30,6 +33,6 @@ def main():
     end = datetime.datetime.today()
     for ticker in ['TWTR', 'FB']:
         scrape_stock(ticker, start, end)
-    
+
 if __name__ == '__main__':
     main()
