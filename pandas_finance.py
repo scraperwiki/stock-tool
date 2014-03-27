@@ -32,7 +32,7 @@ def scrape_stock(stock, start, end):
 
 def main():
     """
-    Save stock ticker data from Yahoo Finance to sqlite.
+    Save stock ticker data from Yahoo! Finance to sqlite.
     """
     global sqlite_db
     sqlite_db = sqlite3.connect("scraperwiki.sqlite")
