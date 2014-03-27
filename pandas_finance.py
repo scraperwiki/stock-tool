@@ -8,7 +8,7 @@ import pandas.io.sql as sql
 
 def get_stock(stock, start, end):
     """
-    Return data frame of Yahoo Finance data for stock.
+    Return data frame of Yahoo! Finance data for stock.
 
     Takes stock name and start and end dates as datetimes.
     """
@@ -16,6 +16,11 @@ def get_stock(stock, start, end):
 
 
 def scrape_stock(stock, start, end):
+    """
+    Write SQLite table of stock data from Yahoo! Finance
+    
+    Take a stock name and start and end dates as datetimes.
+    """
     sqlite_db.execute("drop table if exists {};".format(stock))
     frame = (get_stock(stock, start, end))
     # make Date not an index so it appears in table
@@ -26,6 +31,9 @@ def scrape_stock(stock, start, end):
 
 
 def main():
+    """
+    Save stock ticker data from Yahoo Finance to sqlite.
+    """
     global sqlite_db
     sqlite_db = sqlite3.connect("scraperwiki.sqlite")
     # arbitrary start
