@@ -25,6 +25,7 @@ def scrape_stock(stock, start, end):
 def main():
     global sqlite_db
     sqlite_db = sqlite3.connect("scraperwiki.sqlite")
+    # arbitrary start
     start = datetime.datetime(2014, 3, 1)
     end = datetime.datetime.today()
     for ticker in ['TWTR', 'FB']:
