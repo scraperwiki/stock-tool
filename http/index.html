@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Stock Scraper</title>
+    <link rel="stylesheet" href="//scraperwiki.com/vendor/style/bootstrap.min.css">
+    <link rel="stylesheet" href="//scraperwiki.com/style/scraperwiki.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+    <script src="//scraperwiki.com/vendor/js/bootstrap.min.js"></script>
+    <script src="//scraperwiki.com/js/scraperwiki.js"></script>
+    <script src="code.js"></script> 
+</head>
+<body>
+    <a id="feedback" class="btn btn-danger" href="https://bitbucket.org/scraperwikids/pandas_finance/issues" target="_blank">Report a bug</a>
+    <div class="form-horizontal">
+        <legend>Stock Scraper</legend>
+        <div class="control-group">
+            <label class="control-label" for="textinput">Stock ticker symbols (comma separated)</label>
+                <div class="controls">
+		    <textarea id="url_input" name="url_input" type="text" placeholder="TWTR" class="input-xlarge" required="">TWTR</textarea>
+            </div>
+        </div>
+        <div class="control-group">
+            <div class="controls">
+                <button type="submit" class="btn btn-primary" id="submitBtn">Get Stocks</button>
+                <span class="help-inline">&nbsp;</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
