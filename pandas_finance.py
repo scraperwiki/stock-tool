@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import datetime
 import sqlite3
+import sys
 
 import pandas.io.data as web
 import pandas.io.sql as sql
@@ -30,6 +31,17 @@ def scrape_stock(stock, start, end):
     sql.write_frame(frame, stock, sqlite_db)
 
 
+def parse_wanted_stocks(stocks_string):
+    """
+    Take comma-separated string of stocks; return list of strings.
+    >>> parse_wanted_stocks('TWTR,FB')
+    ['TWTR', 'FB']
+    >>> parse_wanted_stocks('TWTR')
+    ['TWTR']
+    """
+    return stocks_string.split(',')
+
+
 def main():
     """
     Save stock ticker data from Yahoo! Finance to sqlite.
@@ -39,7 +51,7 @@ def main():
     # arbitrary start
     start = datetime.datetime(2014, 3, 1)
     end = datetime.datetime.today()
-    for ticker in ['TWTR', 'FB']:
+    for ticker in parse_wanted_stocks(sys.argv[1]):
         scrape_stock(ticker, start, end)
 
 if __name__ == '__main__':
