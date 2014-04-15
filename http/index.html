@@ -48,6 +48,9 @@
 
   <script type="text/javascript">
   var today = new Date();
+  var aWeekAgo = new Date(new Date().setDate(today.getDate() - 7));
+  $('#start-date').datepicker('setDate', aWeekAgo);
+  $('#end-date').datepicker('setDate', today);
 
   $('#date-input').datepicker({
       format: "yyyy/mm/dd",
