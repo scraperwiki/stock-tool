@@ -57,16 +57,23 @@ def get_arguments():
     return docopt.docopt(__doc__)
 
 
+def convert_date_string_to_datetime(date_string):
+    """ Take date string as YYYY/MM/DD and return as datetime object.
+    >>> convert_date_string_to_datetime('2014/03/02')
+    datetime.datetime(2014, 3, 2, 0, 0)
+    """
+    return datetime.datetime.strptime(date_string, '%Y/%m/%d')
+
+
 def main():
     """
     Save stock ticker data from Yahoo! Finance to sqlite.
     """
     arguments = get_arguments()
+    start = convert_date_string_to_datetime(arguments['START_DATE'])
+    end = convert_date_string_to_datetime(arguments['END_DATE'])
     global sqlite_db
     sqlite_db = sqlite3.connect("scraperwiki.sqlite")
-    # arbitrary start
-    start = datetime.datetime(2014, 3, 1)
-    end = datetime.datetime.today()
     for ticker in parse_wanted_stocks(arguments['STOCKS']):
         scrape_stock(ticker, start, end)
 
