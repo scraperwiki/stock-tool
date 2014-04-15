@@ -29,7 +29,7 @@ def get_stock(stock, start, end):
 def scrape_stock(stock, start, end):
     """
     Write SQLite table of stock data from Yahoo! Finance
-    
+
     Take a stock name and start and end dates as datetimes.
     """
     sqlite_db.execute("drop table if exists {};".format(stock))

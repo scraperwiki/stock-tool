@@ -1,3 +1,4 @@
+docopt>=0.6.1
 numpy>=1.8.0
 pandas>=0.13.1
 scraperwiki>=0.3.8
