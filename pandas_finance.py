@@ -1,8 +1,18 @@
 #!/usr/bin/env python
+""" pandas_finance.
+
+Usage:
+    pandas_finance.py STOCKS START_DATE END_DATE
+
+Arguments:
+    STOCKS     comma separated stock ticker symbols, e.g. FB,TWTR
+    START_DATE start date, yyyy/mm/dd
+    END_DATE   end date, yyyy/mm/dd
+"""
 import datetime
 import sqlite3
-import sys
 
+import docopt
 import pandas.io.data as web
 import pandas.io.sql as sql
 
@@ -42,16 +52,22 @@ def parse_wanted_stocks(stocks_string):
     return stocks_string.split(',')
 
 
+def get_arguments():
+    """ Get arguments from command line. """
+    return docopt.docopt(__doc__)
+
+
 def main():
     """
     Save stock ticker data from Yahoo! Finance to sqlite.
     """
+    arguments = get_arguments()
     global sqlite_db
     sqlite_db = sqlite3.connect("scraperwiki.sqlite")
     # arbitrary start
     start = datetime.datetime(2014, 3, 1)
     end = datetime.datetime.today()
-    for ticker in parse_wanted_stocks(sys.argv[1]):
+    for ticker in parse_wanted_stocks(arguments['STOCKS']):
         scrape_stock(ticker, start, end)
 
 if __name__ == '__main__':
