@@ -59,10 +59,10 @@ def get_arguments():
 
 def convert_date_string_to_datetime(date_string):
     """ Take date string as YYYY/MM/DD and return as datetime object.
-    >>> convert_date_string_to_datetime('2014/03/02')
+    >>> convert_date_string_to_datetime('2014-03-02')
     datetime.datetime(2014, 3, 2, 0, 0)
     """
-    return datetime.datetime.strptime(date_string, '%Y/%m/%d')
+    return datetime.datetime.strptime(date_string, '%Y-%m-%d')
 
 
 def main():
