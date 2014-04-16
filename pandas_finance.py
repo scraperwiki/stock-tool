@@ -30,13 +30,13 @@ def scrape_stock(stock, start, end):
 
     Take a stock name and start and end dates as datetimes.
     """
-    sqlite_db.execute("drop table if exists {};".format(stock))
     frame = (get_stock(stock, start, end))
     # make Date not an index so it appears in table
     frame = frame.reset_index()
     # force Date datetime to string
     frame[['Date']] = frame[['Date']].applymap(lambda x: x.isoformat())
-    sql.write_frame(frame, stock, sqlite_db)
+    frame['Stock'] = stock
+    sql.write_frame(frame, 'stocks', sqlite_db, if_exists='append')
 
 
 def parse_wanted_stocks(stocks_string):
@@ -59,6 +59,7 @@ def main():
     end = datetime.datetime.today()
     global sqlite_db
     sqlite_db = sqlite3.connect("scraperwiki.sqlite")
+    sqlite_db.execute("drop table if exists {};".format('stocks'))
     for ticker in parse_wanted_stocks(sys.argv[1]):
         scrape_stock(ticker, start, end)
 
