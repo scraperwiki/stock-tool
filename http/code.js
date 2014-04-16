@@ -1,9 +1,16 @@
+var param_from_input = function(css) {
+    return scraperwiki.shellEscape($(css).val())
+}
+
 var runScraper = function() {
   $(this).attr('disabled', true)
   $(this).addClass('loading').html('Scraping&hellip;')
-  var stocks = $('#stocks_input').val()
-  var escaped_stocks = scraperwiki.shellEscape(stocks)
-  scraperwiki.exec('python tool/pandas_finance.py ' + escaped_stocks, getStocksSuccess)
+  var stocks = param_from_input('#stocks_input')
+  var start_date = param_from_input('#start-date')
+  var end_date = param_from_input('#end-date')
+
+  var command = ['python tool/pandas_finance.py', stocks, start_date, end_date].join(' ')
+  scraperwiki.exec(command, getStocksSuccess)
 }
 
 var getStocksSuccess = function(data) {
