@@ -1,8 +1,18 @@
 #!/usr/bin/env python
+""" pandas_finance.
+
+Usage:
+    pandas_finance.py STOCKS START_DATE END_DATE
+
+Arguments:
+    STOCKS     comma separated stock ticker symbols, e.g. FB,TWTR
+    START_DATE start date, yyyy/mm/dd
+    END_DATE   end date, yyyy/mm/dd
+"""
 import datetime
 import sqlite3
-import sys
 
+import docopt
 import pandas.io.data as web
 import pandas.io.sql as sql
 
@@ -19,7 +29,7 @@ def get_stock(stock, start, end):
 def scrape_stock(stock, start, end):
     """
     Write SQLite table of stock data from Yahoo! Finance
-    
+
     Take a stock name and start and end dates as datetimes.
     """
     sqlite_db.execute("drop table if exists {};".format(stock))
@@ -42,16 +52,29 @@ def parse_wanted_stocks(stocks_string):
     return stocks_string.split(',')
 
 
+def get_arguments():
+    """ Get arguments from command line. """
+    return docopt.docopt(__doc__)
+
+
+def convert_date_string_to_datetime(date_string):
+    """ Take date string as YYYY/MM/DD and return as datetime object.
+    >>> convert_date_string_to_datetime('2014-03-02')
+    datetime.datetime(2014, 3, 2, 0, 0)
+    """
+    return datetime.datetime.strptime(date_string, '%Y-%m-%d')
+
+
 def main():
     """
     Save stock ticker data from Yahoo! Finance to sqlite.
     """
+    arguments = get_arguments()
+    start = convert_date_string_to_datetime(arguments['START_DATE'])
+    end = convert_date_string_to_datetime(arguments['END_DATE'])
     global sqlite_db
     sqlite_db = sqlite3.connect("scraperwiki.sqlite")
-    # arbitrary start
-    start = datetime.datetime(2014, 3, 1)
-    end = datetime.datetime.today()
-    for ticker in parse_wanted_stocks(sys.argv[1]):
+    for ticker in parse_wanted_stocks(arguments['STOCKS']):
         scrape_stock(ticker, start, end)
 
 if __name__ == '__main__':
