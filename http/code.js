@@ -6,10 +6,7 @@ var runScraper = function() {
   $(this).attr('disabled', true)
   $(this).addClass('loading').html('Scraping&hellip;')
   var stocks = param_from_input('#stocks_input')
-  var start_date = param_from_input('#start-date')
-  var end_date = param_from_input('#end-date')
-
-  var command = ['python tool/pandas_finance.py', stocks, start_date, end_date].join(' ')
+  var command = ['python tool/pandas_finance.py', stocks].join(' ')
   scraperwiki.exec(command, getStocksSuccess)
 }
 
