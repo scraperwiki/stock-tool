@@ -6,13 +6,11 @@ Usage:
 
 Arguments:
     STOCKS     comma separated stock ticker symbols, e.g. FB,TWTR
-    START_DATE start date, yyyy/mm/dd
-    END_DATE   end date, yyyy/mm/dd
 """
 import datetime
 import sqlite3
+import sys
 
-import docopt
 import pandas.io.data as web
 import pandas.io.sql as sql
 
@@ -52,29 +50,16 @@ def parse_wanted_stocks(stocks_string):
     return stocks_string.split(',')
 
 
-def get_arguments():
-    """ Get arguments from command line. """
-    return docopt.docopt(__doc__)
-
-
-def convert_date_string_to_datetime(date_string):
-    """ Take date string as YYYY/MM/DD and return as datetime object.
-    >>> convert_date_string_to_datetime('2014-03-02')
-    datetime.datetime(2014, 3, 2, 0, 0)
-    """
-    return datetime.datetime.strptime(date_string, '%Y-%m-%d')
-
-
 def main():
     """
     Save stock ticker data from Yahoo! Finance to sqlite.
     """
-    arguments = get_arguments()
-    start = convert_date_string_to_datetime(arguments['START_DATE'])
-    end = convert_date_string_to_datetime(arguments['END_DATE'])
+    # Yahoo: "Historical prices typically do not go back further than 1970"
+    start = datetime.datetime(1900, 1, 1, 0, 0)
+    end = datetime.datetime.today()
     global sqlite_db
     sqlite_db = sqlite3.connect("scraperwiki.sqlite")
-    for ticker in parse_wanted_stocks(arguments['STOCKS']):
+    for ticker in parse_wanted_stocks(sys.argv[1]):
         scrape_stock(ticker, start, end)
 
 if __name__ == '__main__':
