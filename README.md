@@ -1,4 +1,9 @@
 # pandas_finance
+Toolified version requires bootstrap-datepicker to be cloned inside tool/http.
+
+Confusingly there are several libraries with this name; get this one:
+https://github.com/eternicode/bootstrap-datepicker
+
 Small script to demonstrate using pandas' DataReader to grab finance data and
 store it in SQLite using the scraperwiki module.
 
