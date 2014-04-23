@@ -33,6 +33,37 @@ var getStocksSuccess = function(data) {
   }
 }
 
+var getSymbols = function() {
+  var command = 'python tool/scrape_symbols.py'
+  $(this).attr('disabled', true)
+  $(this).addClass('loading').html('Getting symbols&hellip;')
+  scraperwiki.exec(command, getSymbolsSuccess)
+}
+
+var getSymbolsSuccess = function(data) {
+  $('#symbolBtn').attr('disabled', false)
+
+  if (data.indexOf('File "tool/scrape_symbols.py"') != -1) {
+
+    scraperwiki.alert('Error in scrape_symbols.py', data, true)
+    $('#symbolBtn').removeClass('loading').html('<i class="icon-remove"></i> Error')
+    $('#symbolBtn').removeClass('btn-default').addClass('btn-danger')
+
+    setTimeout(function() {
+      $('#symbolBtn').html('Get list of symbols')
+      $('#symbolBtn').removeClass('btn-danger').addClass('btn-default')
+    }, 4000)
+
+  } else {
+
+    window.location.replace('ticker_info.csv')
+    $('#symbolBtn').removeClass('loading').addClass('btn-default')
+    $('#symbolBtn').html('Get list of symbols')
+
+  }
+}
+
 $(function() {
   $('#submitBtn').on('click', runScraper)
+  $('#symbolBtn').on('click', getSymbols)
 })
