@@ -6,7 +6,7 @@ var runScraper = function() {
   $(this).attr('disabled', true)
   $(this).addClass('loading').html('Scraping&hellip;')
   var stocks = param_from_input('#stocks_input')
-  var echoCommand = ['echo', scraperwiki.shellEscape(stocks), '>>', 'tool/tickers.txt'].join(' ')
+  var echoCommand = ['echo', stocks, '>', 'tool/tickers.txt'].join(' ')
   scraperwiki.exec(echoCommand)
   var command = ['python tool/pandas_finance.py', stocks].join(' ')
   scraperwiki.exec(command, getStocksSuccess)
