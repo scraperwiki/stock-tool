@@ -2,10 +2,10 @@
 """ pandas_finance.
 
 Usage:
-    pandas_finance.py STOCKS START_DATE END_DATE
+    pandas_finance.py STOCKS_AS_TEXT_FILE
 
 Arguments:
-    STOCKS     comma separated stock ticker symbols, e.g. FB,TWTR
+    STOCKS_AS_TEXT_FILE comma separated stock ticker symbols, FB,TWTR
 """
 import datetime
 import sqlite3
@@ -50,6 +50,14 @@ def parse_wanted_stocks(stocks_string):
     return stocks_string.split(',')
 
 
+def get_required_tickers(textfile):
+    """
+    Open file containing a string like TWTR,FB; return as string.
+    """
+    with open(textfile, 'r') as f:
+        return f.read().rstrip('\n')
+
+
 def main():
     """
     Save stock ticker data from Yahoo! Finance to sqlite.
@@ -60,7 +68,9 @@ def main():
     global sqlite_db
     sqlite_db = sqlite3.connect("scraperwiki.sqlite")
     sqlite_db.execute("drop table if exists {};".format('stocks'))
-    for ticker in parse_wanted_stocks(sys.argv[1]):
+
+    tickers = get_required_tickers(sys.argv[1])
+    for ticker in parse_wanted_stocks(tickers):
         scrape_stock(ticker, start, end)
 
 if __name__ == '__main__':
