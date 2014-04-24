@@ -8,6 +8,8 @@ Arguments:
     STOCKS_AS_TEXT_FILE comma separated stock ticker symbols, FB,TWTR
 """
 import datetime
+import os
+import random
 import sqlite3
 import sys
 
@@ -58,6 +60,23 @@ def get_required_tickers(textfile):
         return f.read().rstrip('\n')
 
 
+def install_crontab():
+    """
+    Install crontab.
+
+    Taken from Twitter followers tool.
+    """
+    if not os.path.isfile("crontab"):
+        #logging.warn("Crontab not detected. Installing...")
+        crontab = open("tool/crontab.template").read()
+        # ... run at a random minute to distribute load
+        crontab = crontab.replace("RANDOM", str(random.randint(0, 59)))
+        open("crontab", "w").write(crontab)
+    #else:
+    #    logging.info("Crontab present. Activating...")
+    os.system("crontab crontab")
+
+
 def main():
     """
     Save stock ticker data from Yahoo! Finance to sqlite.
@@ -72,6 +91,9 @@ def main():
     tickers = get_required_tickers(sys.argv[1])
     for ticker in parse_wanted_stocks(tickers):
         scrape_stock(ticker, start, end)
+    # if all looks well, schedule
+    install_crontab()
+
 
 if __name__ == '__main__':
     main()
