@@ -70,7 +70,8 @@ def install_crontab():
         #logging.warn("Crontab not detected. Installing...")
         crontab = open("tool/crontab.template").read()
         # ... run at a random minute to distribute load
-        crontab = crontab.replace("RANDOM", str(random.randint(0, 59)))
+        crontab = crontab.replace("RANDMN", str(random.randint(0, 59)))
+        crontab = crontab.replace("RANDHR", str(random.randint(0, 23)))
         open("crontab", "w").write(crontab)
     #else:
     #    logging.info("Crontab present. Activating...")
