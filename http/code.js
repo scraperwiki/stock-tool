@@ -66,6 +66,9 @@ var getSymbolsSuccess = function(data) {
 }
 
 $(function() {
+  $('#stocks_input').load('tickers.txt', function() {
+    $('#stocks_input').attr('placeholder', "TWTR,FB").focus()
+  })
   $('#submitBtn').on('click', runScraper)
   $('#symbolBtn').on('click', getSymbols)
 })
