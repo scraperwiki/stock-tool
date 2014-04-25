@@ -16,6 +16,7 @@ import sys
 import pandas.io.data as web
 import pandas.io.sql as sql
 
+from dshelpers import update_status
 
 def get_stock(stock, start, end):
     """
@@ -92,6 +93,8 @@ def main():
     tickers = get_required_tickers(sys.argv[1])
     for ticker in parse_wanted_stocks(tickers):
         scrape_stock(ticker, start, end)
+
+    update_status('stocks')
     # if all looks well, schedule
     install_crontab()
 
