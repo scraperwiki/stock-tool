@@ -6,7 +6,7 @@ var runScraper = function() {
   $(this).attr('disabled', true)
   $(this).addClass('loading').html('Scraping&hellip;')
   var stocks = param_from_input('#stocks_input')
-  var echoCommand = ['echo', stocks, '>', 'tool/tickers.txt'].join(' ')
+  var echoCommand = ['echo -n', stocks, '>', 'tool/tickers.txt'].join(' ')
   scraperwiki.exec(echoCommand)
   var command = 'python tool/pandas_finance.py tool/tickers.txt'
   scraperwiki.exec(command, getStocksSuccess)
@@ -66,6 +66,9 @@ var getSymbolsSuccess = function(data) {
 }
 
 $(function() {
+  $('#stocks_input').load('tickers.txt', function() {
+    $('#stocks_input').attr('placeholder', "TWTR,FB").focus()
+  })
   $('#submitBtn').on('click', runScraper)
   $('#symbolBtn').on('click', getSymbols)
 })
