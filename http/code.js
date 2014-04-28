@@ -18,7 +18,7 @@ var getStocksSuccess = function(data) {
 
   if (data.indexOf('File "tool/pandas_finance.py"') != -1) {
 
-    scraperwiki.alert('Error in pandas_finance.py', data, true)
+    scraperwiki.alert('Could not retrieve stock tickers.', "Check your tickers are valid and comma-separated, then try again.<br>If problems persist, it may be an issue with the stock service; please try again later.", true)
     $('#submitBtn').removeClass('loading').html('<i class="icon-remove"></i> Error')
     $('#submitBtn').removeClass('btn-primary').addClass('btn-danger')
 
