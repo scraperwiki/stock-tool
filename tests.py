@@ -11,7 +11,6 @@ from pandas_finance import get_stock, get_required_tickers
 class PandasFinanceTestCase(unittest.TestCase):
     @mock.patch('pandas_finance.web.DataReader')
     def test_get_stock_called_correctly(self, mock_datareader):
-        mock_datareader()
         start = datetime.datetime(1999, 4, 3, 0, 0)
         end = datetime.datetime(2005, 2, 5, 0, 0)
         get_stock('AAPL', start, end)
