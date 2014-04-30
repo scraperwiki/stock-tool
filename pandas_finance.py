@@ -85,13 +85,17 @@ def install_crontab():
     os.system("crontab crontab")
 
 
+def get_dates():
+    """ Return start date of 1900-01-01 and today. """
+    return datetime.datetime(1900, 1, 1, 0, 0), datetime.datetime.today()
+
+
 def main():
     """
     Save stock ticker data from Yahoo! Finance to sqlite.
     """
     # Yahoo: "Historical prices typically do not go back further than 1970"
-    start = datetime.datetime(1900, 1, 1, 0, 0)
-    end = datetime.datetime.today()
+    start, end = get_dates()
     global sqlite_db
     sqlite_db = sqlite3.connect("scraperwiki.sqlite")
     sqlite_db.execute("drop table if exists {};".format('stocks'))
