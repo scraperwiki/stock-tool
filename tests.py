@@ -21,7 +21,7 @@ class GetStockTestCase(unittest.TestCase):
 
     def test_get_required_tickers_parses_tickers_with_newline(self):
         m = mock.mock_open(read_data='TWTR,FB,AAPL,MSFT\n')
-        textfile = None  # only used to provide valid argument
+        textfile = None  # Only used to provide valid argument.
         with mock.patch('pandas_finance.open', m, create=True):
             result = pandas_finance.get_required_tickers(textfile)
         assert_equal('TWTR,FB,AAPL,MSFT', result)
@@ -48,7 +48,7 @@ class ScrapeStockTestCase(unittest.TestCase):
         cls.input_frame.index.name = 'Date'
 
         output_values = input_values
-        # get_stock converts datetime to isoformat string
+        # get_stock converts datetime to isoformat string.
         output_values['Date'] = '2014-04-29'
         output_values['Stock'] = 'AAPL'
         output_columns = ['Date'] + input_columns + ['Stock']
@@ -61,6 +61,6 @@ class ScrapeStockTestCase(unittest.TestCase):
         mock_get_stock.return_value = self.input_frame
         pandas_finance.scrape_stock('AAPL', self.start, self.end)
         frame_called_with = mock_write_frame.call_args_list[0][0][0]
-        # can't seem to use mock.assert_called_with; problem when comparing
-        # dataframes, grab argument directly and compare it to expected frame
+        # Can't seem to use mock.assert_called_with; problem when comparing
+        # dataframes, grab argument directly and compare it to expected frame.
         assert_frame_equal(self.output_frame, frame_called_with)
