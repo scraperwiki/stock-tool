@@ -5,7 +5,7 @@ import unittest
 
 import mock
 
-from nose.tools import assert_equal, assert_is_instance
+from nose.tools import assert_equal
 from pandas_finance import get_stock, get_required_tickers
 
 class PandasFinanceTestCase(unittest.TestCase):
