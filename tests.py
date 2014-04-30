@@ -8,7 +8,8 @@ import mock
 from nose.tools import assert_equal
 from pandas_finance import get_stock, get_required_tickers
 
-class PandasFinanceTestCase(unittest.TestCase):
+
+class GetStockTestCase(unittest.TestCase):
     @mock.patch('pandas_finance.web.DataReader')
     def test_get_stock_called_correctly(self, mock_datareader):
         start = datetime.datetime(1999, 4, 3, 0, 0)
