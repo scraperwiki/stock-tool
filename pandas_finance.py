@@ -74,15 +74,14 @@ def install_crontab():
     Taken from Twitter followers tool.
     """
     if not os.path.isfile("crontab"):
-        # TODO: put into context manager
-        #logging.warn("Crontab not detected. Installing...")
-        crontab = open("tool/crontab.template").read()
-        # ... run at a random minute to distribute load
+        with open('tool/crontab.template') as crontab_template:
+            crontab = crontab_template.read()
+        # Specify random hour and minute to distribute load
         crontab = crontab.replace("RANDMN", str(random.randint(0, 59)))
         crontab = crontab.replace("RANDHR", str(random.randint(0, 23)))
-        open("crontab", "w").write(crontab)
-    #else:
-    #    logging.info("Crontab present. Activating...")
+        with open("crontab", "w") as crontab_file:
+            crontab_file.write(crontab)
+
     os.system("crontab crontab")
 
 
