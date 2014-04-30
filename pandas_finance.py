@@ -39,6 +39,11 @@ def scrape_stock(stock, start, end):
     # force Date datetime to string
     frame[['Date']] = frame[['Date']].applymap(lambda x: x.isoformat())
     frame['Stock'] = stock
+    write_frame_to_sql(frame)
+
+
+def write_frame_to_sql(frame):
+    """ Write Pandas dataframe to SQLite database. """
     sql.write_frame(frame, 'stocks', sqlite_db, if_exists='append')
 
 
