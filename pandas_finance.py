@@ -18,6 +18,7 @@ import pandas.io.sql as sql
 
 from dshelpers import update_status
 
+
 def get_stock(stock, start, end):
     """
     Return data frame of Yahoo! Finance data for stock.
