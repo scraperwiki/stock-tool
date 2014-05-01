@@ -77,3 +77,70 @@ class GetDatesTestCase(unittest.TestCase):
         start, end = pandas_finance.get_dates()
         assert_equal(datetime.datetime(1900, 1, 1, 0, 0), start)
         assert_equal(datetime.datetime.today(), end)
+
+
+class MainTestCase(unittest.TestCase):
+    def setUp(self):
+        patcher1 = mock.patch('pandas_finance.sqlite3.connect')
+        self.mock_sqlite3_connect = patcher1.start()
+        self.addCleanup(patcher1.stop)
+
+        patcher2 = mock.patch('pandas_finance.get_required_tickers')
+        self.mock_get_required_tickers = patcher2.start()
+        self.mock_get_required_tickers.return_value = 'TWTR,FB,AAPL'
+        self.addCleanup(patcher2.stop)
+
+        patcher3 = mock.patch('pandas_finance.scrape_stock')
+        self.mock_scrape_stock = patcher3.start()
+        self.addCleanup(patcher3.stop)
+
+        patcher4 = mock.patch('pandas_finance.update_status')
+        self.mock_update_status = patcher4.start()
+        self.addCleanup(patcher4.stop)
+
+        patcher5 = mock.patch('pandas_finance.install_crontab')
+        self.mock_install_crontab = patcher5.start()
+        self.addCleanup(patcher5.stop)
+
+        patcher6 = mock.patch('pandas_finance.get_dates')
+        self.mock_get_dates = patcher6.start()
+        self.addCleanup(patcher6.stop)
+
+        self.start_date = datetime.datetime(1900, 1, 1, 0, 0)
+        self.end_date = datetime.datetime(2013, 10, 20, 10, 20, 23, 1234)
+        self.mock_get_dates.return_value = self.start_date, self.end_date
+
+    def test_get_dates_call(self):
+        pandas_finance.main('tickers.txt')
+        self.mock_get_dates.assert_called_with()
+
+    def test_sqlite3_connect_call(self):
+        pandas_finance.main('tickers.txt')
+        self.mock_sqlite3_connect.assert_called_with('scraperwiki.sqlite')
+
+    def test_database_execute_call(self):
+        sqlite_execute_mock = mock.Mock(name='RETURNMOCK')
+        self.mock_sqlite3_connect.return_value = sqlite_execute_mock
+        pandas_finance.main('tickers.txt')
+        expected_call = 'drop table if exists stocks;'
+        sqlite_execute_mock.execute.assert_called_with(expected_call)
+
+    def test_get_required_tickers_call(self):
+        pandas_finance.main('tickers.txt')
+        self.mock_get_required_tickers.assert_called_with('tickers.txt')
+
+    def test_scrape_stock_calls(self):
+        pandas_finance.main('tickers.txt')
+        expected_calls = []
+        for stock in ['TWTR', 'FB', 'AAPL']:
+            expected_calls.append(mock.call(stock, self.start_date,
+                                            self.end_date))
+        self.mock_scrape_stock.assert_has_calls(expected_calls)
+
+    def test_update_status_called(self):
+        pandas_finance.main('tickers.txt')
+        self.mock_update_status.assert_called_with('stocks')
+
+    def test_install_crontab_called(self):
+        pandas_finance.main('tickers.txt')
+        self.mock_install_crontab.assert_called_with()
