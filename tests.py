@@ -28,11 +28,10 @@ class GetStockTestCase(unittest.TestCase):
 
 
 class ScrapeStockTestCase(unittest.TestCase):
-    @classmethod
-    def setUpClass(cls):
-        """Run once before all tests in this test class."""
-        cls.start = datetime.datetime(2014, 04, 29).date()
-        cls.end = cls.start
+    def setUp(self):
+        """Run once before each test in this test class."""
+        self.start = datetime.datetime(2014, 04, 29).date()
+        self.end = self.start
 
         input_values = {'Volume': [12033400],
                         'Adj Close': [592.33],
@@ -40,19 +39,19 @@ class ScrapeStockTestCase(unittest.TestCase):
                         'Low': [589.51],
                         'Close': [592.33],
                         'Open': [593.74]}
-        index_label = [cls.start]
+        index_label = [self.start]
         input_columns = ['Open', 'High', 'Low', 'Close', 'Volume', 'Adj Close']
-        cls.input_frame = pd.DataFrame(input_values,
-                                       columns=input_columns,
-                                       index=index_label)
-        cls.input_frame.index.name = 'Date'
+        self.input_frame = pd.DataFrame(input_values,
+                                        columns=input_columns,
+                                        index=index_label)
+        self.input_frame.index.name = 'Date'
 
         output_values = input_values
         # get_stock converts datetime to isoformat string.
         output_values['Date'] = '2014-04-29'
         output_values['Stock'] = 'AAPL'
         output_columns = ['Date'] + input_columns + ['Stock']
-        cls.output_frame = pd.DataFrame(output_values, columns=output_columns)
+        self.output_frame = pd.DataFrame(output_values, columns=output_columns)
 
     @mock.patch('pandas_finance.write_frame_to_sql')
     @mock.patch('pandas_finance.get_stock')
