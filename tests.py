@@ -9,6 +9,7 @@ import pandas_finance
 
 from pandas.util.testing import assert_frame_equal
 from nose.tools import assert_equal
+from freezegun import freeze_time
 
 
 class GetStockTestCase(unittest.TestCase):
@@ -68,3 +69,11 @@ class ScrapeStockTestCase(unittest.TestCase):
 
 class InstallCrontabTestCase(unittest.TestCase):
     pass
+
+
+class GetDatesTestCase(unittest.TestCase):
+    @freeze_time('2014-04-10 15:05:05')
+    def test_get_dates(self):
+        start, end = pandas_finance.get_dates()
+        assert_equal(datetime.datetime(1900, 1, 1, 0, 0), start)
+        assert_equal(datetime.datetime.today(), end)
