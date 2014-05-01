@@ -59,7 +59,8 @@ class ScrapeStockTestCase(unittest.TestCase):
                                               mock_write_frame):
         mock_get_stock.return_value = self.input_frame
         pandas_finance.scrape_stock('AAPL', self.start, self.end)
-        frame_called_with = mock_write_frame.call_args_list[0][0][0]
+        # Hacky workaround:
         # Can't seem to use mock.assert_called_with; problem when comparing
         # dataframes, grab argument directly and compare it to expected frame.
+        frame_called_with = mock_write_frame.call_args_list[0][0][0]
         assert_frame_equal(self.output_frame, frame_called_with)
