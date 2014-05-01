@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# encoding: utf-8
 """ pandas_finance.
 
 Usage:
@@ -17,6 +18,7 @@ import pandas.io.data as web
 import pandas.io.sql as sql
 
 from dshelpers import update_status
+
 
 def get_stock(stock, start, end):
     """
@@ -39,6 +41,11 @@ def scrape_stock(stock, start, end):
     # force Date datetime to string
     frame[['Date']] = frame[['Date']].applymap(lambda x: x.isoformat())
     frame['Stock'] = stock
+    write_frame_to_sql(frame)
+
+
+def write_frame_to_sql(frame):
+    """ Write Pandas dataframe to SQLite database. """
     sql.write_frame(frame, 'stocks', sqlite_db, if_exists='append')
 
 
@@ -68,29 +75,33 @@ def install_crontab():
     Taken from Twitter followers tool.
     """
     if not os.path.isfile("crontab"):
-        #logging.warn("Crontab not detected. Installing...")
-        crontab = open("tool/crontab.template").read()
-        # ... run at a random minute to distribute load
+        with open('tool/crontab.template') as crontab_template:
+            crontab = crontab_template.read()
+        # Specify random hour and minute to distribute load
         crontab = crontab.replace("RANDMN", str(random.randint(0, 59)))
         crontab = crontab.replace("RANDHR", str(random.randint(0, 23)))
-        open("crontab", "w").write(crontab)
-    #else:
-    #    logging.info("Crontab present. Activating...")
+        with open("crontab", "w") as crontab_file:
+            crontab_file.write(crontab)
+
     os.system("crontab crontab")
 
 
-def main():
+def get_dates():
+    """ Return start date of 1900-01-01 and today. """
+    return datetime.datetime(1900, 1, 1, 0, 0), datetime.datetime.today()
+
+
+def main(args):
     """
     Save stock ticker data from Yahoo! Finance to sqlite.
     """
     # Yahoo: "Historical prices typically do not go back further than 1970"
-    start = datetime.datetime(1900, 1, 1, 0, 0)
-    end = datetime.datetime.today()
+    start, end = get_dates()
     global sqlite_db
     sqlite_db = sqlite3.connect("scraperwiki.sqlite")
     sqlite_db.execute("drop table if exists {};".format('stocks'))
 
-    tickers = get_required_tickers(sys.argv[1])
+    tickers = get_required_tickers(args)
     for ticker in parse_wanted_stocks(tickers):
         scrape_stock(ticker, start, end)
 
@@ -100,4 +111,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    main(sys.argv[1])
