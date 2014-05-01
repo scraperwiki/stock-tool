@@ -90,7 +90,7 @@ def get_dates():
     return datetime.datetime(1900, 1, 1, 0, 0), datetime.datetime.today()
 
 
-def main():
+def main(args):
     """
     Save stock ticker data from Yahoo! Finance to sqlite.
     """
@@ -100,7 +100,7 @@ def main():
     sqlite_db = sqlite3.connect("scraperwiki.sqlite")
     sqlite_db.execute("drop table if exists {};".format('stocks'))
 
-    tickers = get_required_tickers(sys.argv[1])
+    tickers = get_required_tickers(args)
     for ticker in parse_wanted_stocks(tickers):
         scrape_stock(ticker, start, end)
 
@@ -110,4 +110,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    main(sys.argv[1])
