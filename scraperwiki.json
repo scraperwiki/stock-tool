@@ -1,0 +1,6 @@
+{
+  "displayName": "Get US stock data",
+  "description": "Highs, lows and more",
+  "icon": "https://s3-eu-west-1.amazonaws.com/sw-icons/tool-icon-stock.png",
+  "color": "#e5e5e5"
+}
