@@ -22,7 +22,7 @@ class GetStockTestCase(unittest.TestCase):
 
     def test_get_required_tickers_parses_tickers_with_newline(self):
         m = mock.mock_open(read_data='TWTR,FB,AAPL,MSFT\n')
-        textfile = None  # Only used to provide valid argument.
+        textfile = 'tickers.txt'
         with mock.patch('pandas_finance.open', m, create=True):
             result = pandas_finance.get_required_tickers(textfile)
         assert_equal('TWTR,FB,AAPL,MSFT', result)
