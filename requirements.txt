@@ -1,5 +1,5 @@
 numpy>=1.8.0
-pandas>=0.13.1
+pandas>=0.10.1
 scraperwiki>=0.3.8
-lxml>=3.3.5
+lxml>=3.2.4
 -e git+https://github.com/scraperwiki/data-services-helpers@1.0.3#egg=dshelpers
