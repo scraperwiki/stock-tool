@@ -1,7 +1,7 @@
 #!/bin/bash
 cd
 
-if [ setup_done does not exist ]; then
+if [ ! -f "setup_done" ]; then
     pip install -q --user -r tool/requirements.txt
-    echo 'Done' > setup_done
+    echo 'Done' >> setup_done
 fi
