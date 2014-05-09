@@ -41,13 +41,13 @@ var getStocksSuccess = function(data) {
 
 var getSymbols = function() {
   var command = 'python tool/scrape_symbols.py'
-  $(this).attr('disabled', true)
-  $(this).addClass('loading').html('Getting symbols&hellip;')
   scraperwiki.exec(command, getSymbolsSuccess)
 }
 
 var getSymbolsSetup = function() {
   scraperwiki.exec('tool/setup.sh', getSymbols)
+  $(this).attr('disabled', true)
+  $(this).addClass('loading').html('Getting symbols&hellip;')
 }
 
 var getSymbolsSuccess = function(data) {
