@@ -33,7 +33,7 @@ def write_header(fobj):
 
 def write_csv(xml):
     """ Write header row and company info to CSV. """
-    with codecs.open('ticker_info.csv', 'w', 'utf-8') as f:
+    with codecs.open('/home/http/ticker_info.csv', 'w', 'utf-8') as f:
         write_header(f)
         for company_info in yield_ticker_info_from_csv(xml):
             f.write(company_info + '\n')

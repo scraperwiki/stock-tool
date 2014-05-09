@@ -60,11 +60,12 @@ def parse_wanted_stocks(stocks_string):
     return stocks_string.split(',')
 
 
-def get_required_tickers(textfile):
+def get_required_tickers(filename):
     """
     Open file containing a string like TWTR,FB; return as string.
     """
-    with open(textfile, 'r') as f:
+    file_path = '/home/http/' + filename
+    with open(file_path, 'r') as f:
         return f.read().rstrip('\n')
 
 
