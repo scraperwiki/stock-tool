@@ -14,10 +14,9 @@ import random
 import sqlite3
 import sys
 
+import scraperwiki
 import pandas.io.data as web
 import pandas.io.sql as sql
-
-from dshelpers import update_status
 
 
 def get_stock(stock, start, end):
@@ -106,7 +105,7 @@ def main(args):
     for ticker in parse_wanted_stocks(tickers):
         scrape_stock(ticker, start, end)
 
-    update_status('stocks')
+    scraperwiki.status('ok')
     # if all looks well, schedule
     install_crontab()
 
