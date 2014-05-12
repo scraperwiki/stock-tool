@@ -99,7 +99,7 @@ def main(args):
     start, end = get_dates()
     global sqlite_db
     sqlite_db = sqlite3.connect("scraperwiki.sqlite")
-    sqlite_db.execute("drop table if exists {};".format('stocks'))
+    sqlite_db.execute("drop table if exists stocks;")
 
     tickers = get_required_tickers(args)
     for ticker in parse_wanted_stocks(tickers):
