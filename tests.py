@@ -94,8 +94,8 @@ class MainTestCase(unittest.TestCase):
         self.mock_scrape_stock = patcher3.start()
         self.addCleanup(patcher3.stop)
 
-        patcher4 = mock.patch('pandas_finance.update_status')
-        self.mock_update_status = patcher4.start()
+        patcher4 = mock.patch('pandas_finance.scraperwiki.status')
+        self.mock_status = patcher4.start()
         self.addCleanup(patcher4.stop)
 
         patcher5 = mock.patch('pandas_finance.install_crontab')
@@ -137,9 +137,9 @@ class MainTestCase(unittest.TestCase):
                                             self.end_date))
         self.mock_scrape_stock.assert_has_calls(expected_calls)
 
-    def test_update_status_called(self):
+    def test_scraperwiki_status_called(self):
         pandas_finance.main('tickers.txt')
-        self.mock_update_status.assert_called_with('stocks')
+        self.mock_status.assert_called_with('ok')
 
     def test_install_crontab_called(self):
         pandas_finance.main('tickers.txt')
