@@ -5,10 +5,6 @@ var param_from_input = function(css) {
 var runScraper = function() {
   $(this).attr('disabled', true)
   $(this).addClass('loading').html('Scraping&hellip;')
-  scraperwiki.exec('tool/setup.sh', runCommands)
-}
-
-var runCommands = function() {
   var stocks = param_from_input('#stocks_input')
   var echoCommand = ['echo -n', stocks, '>', '/home/http/tickers.txt'].join(' ')
   scraperwiki.exec(echoCommand)
