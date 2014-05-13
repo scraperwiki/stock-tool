@@ -55,8 +55,15 @@ def parse_wanted_stocks(stocks_string):
     ['TWTR', 'FB']
     >>> parse_wanted_stocks('TWTR')
     ['TWTR']
+    >>> parse_wanted_stocks('TWTR, FB')
+    ['TWTR', 'FB']
+    >>> parse_wanted_stocks(' TWTR,FB')
+    ['TWTR', 'FB']
+    >>> parse_wanted_stocks('TWTR,FB,')
+    ['TWTR', 'FB']
     """
-    return stocks_string.split(',')
+    return [stock.strip() for stock in stocks_string.split(',')
+            if stock.strip()]
 
 
 def get_required_tickers(filename):
