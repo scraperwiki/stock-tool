@@ -36,14 +36,10 @@ var getStocksSuccess = function(data) {
 }
 
 var getSymbols = function() {
-  var command = 'python tool/scrape_symbols.py'
-  scraperwiki.exec(command, getSymbolsSuccess)
-}
-
-var getSymbolsSetup = function() {
-  scraperwiki.exec('tool/setup.sh', getSymbols)
   $(this).attr('disabled', true)
   $(this).addClass('loading').html('Getting symbols&hellip;')
+  var command = 'python tool/scrape_symbols.py'
+  scraperwiki.exec(command, getSymbolsSuccess)
 }
 
 var getSymbolsSuccess = function(data) {
@@ -74,5 +70,5 @@ $(function() {
     $('#stocks_input').attr('placeholder', "TWTR,FB").focus()
   })
   $('#submitBtn').on('click', runScraper)
-  $('#symbolBtn').on('click', getSymbolsSetup)
+  $('#symbolBtn').on('click', getSymbols)
 })
