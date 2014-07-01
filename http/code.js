@@ -9,6 +9,7 @@ var runScraper = function() {
   var echoCommand = ['echo -n', stocks, '>', '/home/http/tickers.txt'].join(' ')
   scraperwiki.exec(echoCommand)
   var command = 'python tool/pandas_finance.py tickers.txt'
+  scraperwiki.dataset.name("Stock prices of " + $('#stocks_input').val())
   scraperwiki.exec(command, getStocksSuccess)
 }
 
